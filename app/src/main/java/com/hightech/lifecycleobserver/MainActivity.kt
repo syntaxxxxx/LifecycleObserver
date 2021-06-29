@@ -2,9 +2,10 @@ package com.hightech.lifecycleobserver
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.lifecycle.LifecycleObserver
 import timber.log.Timber
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), LifecycleObserver {
 
     private lateinit var mainTimer: MainTimer
 
@@ -13,13 +14,12 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         Timber.i("onCreate called")
 
-        mainTimer = MainTimer()
+        mainTimer = MainTimer(this.lifecycle)
     }
 
     override fun onStart() {
         super.onStart()
         Timber.i("onStart called")
-        mainTimer.startTimer()
     }
 
     override fun onResume() {
@@ -35,7 +35,6 @@ class MainActivity : AppCompatActivity() {
     override fun onStop() {
         super.onStop()
         Timber.i("onStop called")
-        mainTimer.stopTimer()
     }
 
     override fun onRestart() {
